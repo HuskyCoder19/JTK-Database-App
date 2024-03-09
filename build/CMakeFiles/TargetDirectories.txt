@@ -1,0 +1,13 @@
+/home/jtkollod/projects/jtk_Database/build/CMakeFiles/jtkDB.dir
+/home/jtkollod/projects/jtk_Database/build/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/CMakeFiles/rebuild_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/jtkDatabase/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/jtkDatabase/CMakeFiles/rebuild_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/jtkTable/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/jtkTable/CMakeFiles/rebuild_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/dbTerminal/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/dbTerminal/CMakeFiles/rebuild_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/tableTerminal/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/tableTerminal/CMakeFiles/rebuild_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/utils/CMakeFiles/edit_cache.dir
+/home/jtkollod/projects/jtk_Database/build/src/utils/CMakeFiles/rebuild_cache.dir
