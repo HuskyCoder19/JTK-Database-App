@@ -21,6 +21,8 @@ namespace jtkDatabase {
 
             bool getTable(const std::string& tableName, jtkTable::Table* pTable);
 
+            bool addTableCol(const std::string& tableName, const std::string& colName, const std::string& colType);
+
             void viewTables();
 
             std::string getName();
@@ -30,6 +32,8 @@ namespace jtkDatabase {
             bool dirExists(const std::string& path);
 
             void initTables();
+
+            int getTableInd(const std::string& tableName); // get index of table from table name
         
             std::string m_dbName; // name of database
 

@@ -38,16 +38,44 @@ void TableTerminal::showCmds() {
 
 bool TableTerminal::parseCmds(const string& cmd, Table* pTable) {
 
+    string addColCmd = "add -c ";
+    int pos;
+
     if (cmd == "view") {
         cout << endl;
         pTable->viewTable();
         cout << endl;
+    } else if ((pos = cmd.find(addColCmd)) != string::npos) {
+
+        // add table row
+        string colInfo = cmd;
+        colInfo.erase(pos, addColCmd.length());
+
+        // find substring for table name and data type
+        pos = colInfo.find(' ');
+        if (pos != string::npos) {
+
+            string colName = colInfo.substr(0, pos);
+            string colType = colInfo.substr(pos+1, colInfo.length());
+
+            // remove from quotes
+            if (extractString(colName) && extractString(colType)) {
+                if (pTable->addColumn(colName, colType)) {
+                    cout << "Column '" << colName << "'added!" << endl;
+                }
+                else {
+                    cerr << "error: Failed to create column." << endl;
+                }
+            }
+        } else {
+            cerr << "error: Unable to find column name and data type." << endl;
+        }
+
     } else if (cmd == "exit") {
         return false;
     } else {
         cerr << "error: Command '" << cmd << "' not found" << endl;
     }
-
 
     return true;
 

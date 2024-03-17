@@ -36,7 +36,28 @@ bool Table::initialize(const string& tableName, const string& dbName) {
     return true;
 }
 
-bool Table::addColumn(const string& field, const string& type) {
+bool Table::addColumn(const string& name, const string& type) {
+
+    // check if column name already exists
+    for (int i = 0 ; i < m_tableCols.size() ; i++) {
+        if (name == m_tableCols[i].name) {
+            return false;
+        }
+    }
+
+    // add table column
+    TableCol col;
+    col.name = name;
+    DataType dt = m_typeMap[type]; // map to data type
+    col.type = dt;
+
+    // initilialize column data to NULL for each row
+    for (int i = 0 ; i < m_rowCount ; i++) {
+        col.data.push_back("NULL");
+    }
+
+    m_tableCols.push_back(col);
+
     return true;
 }
 
@@ -136,6 +157,9 @@ void Table::buildTable(fstream* tabFile) {
                             m_tableCols[i].data.push_back("NULL"); // fill in missing table row data
                         }
                     }
+
+                    m_rowCount++;
+
                 }
 
             }

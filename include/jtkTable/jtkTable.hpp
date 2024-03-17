@@ -47,7 +47,6 @@ namespace jtkTable {
                 {"char", DataType::CHAR}
             };
 
-
             void buildTable(std::fstream* tabFile);
 
             std::vector<std::string> parseCSV(const std::string& ln);
@@ -59,6 +58,8 @@ namespace jtkTable {
             std::string m_tableName;
 
             std::string m_dbName;
+
+            int m_rowCount = 0;
     };
 
 }

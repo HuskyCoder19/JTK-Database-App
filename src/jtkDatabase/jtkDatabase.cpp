@@ -49,6 +49,18 @@ bool Database::deleteTable(const string& pTableName) {
     return false;
 }
 
+bool Database::addTableCol(const string& tableName, const string& colName, const string& colType) {
+
+    int ind = getTableInd(tableName);
+   
+    if (ind >= 0) {
+        return m_tables[ind].addColumn(colName, colType);
+    }
+
+    return false;
+
+}
+
 void Database::viewTables() {
 
     for (int i = 0 ; i < m_tables.size() ; i++) {
@@ -69,6 +81,17 @@ bool Database::dirExists(const string& path) {
         return false;
     } 
     return (info.st_mode & S_IFDIR) != 0;
+}
+
+int Database::getTableInd(const string& tableName) {
+
+    for (int i = 0 ; i < m_tables.size() ; i++) {
+        if (tableName == m_tables[i].getName()) {
+            return i;
+        }
+    }
+    return -1;
+
 }
 
 bool Database::getTable(const string& tableName, Table* pTable) {

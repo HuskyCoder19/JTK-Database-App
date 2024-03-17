@@ -20,6 +20,8 @@ namespace dbTerminal {
 
             bool parseCmds(const std::string& cmd, jtkDatabase::Database* pDB);
 
+            void addColHelper(const std::string& str, jtkDatabase::Database* pDB);
+
     };
 
 }

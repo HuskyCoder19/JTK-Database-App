@@ -33,7 +33,7 @@ void DBTerminal::showCmds() {
 
     cout << "   Create table:           create -t '<table_name>'" << endl;
     cout << "   view tables:            view -all" << endl;
-    cout << "   Enter table shell:      use '<table_name>'" << endl;
+    cout << "   Add table column:       add -c '<table_name>' '<column_name>' '<data_type>'" << endl;
     cout << "   Show commands:          view -cmds" << endl;
     cout << "   exit:                   exit" << endl;
 }
@@ -41,7 +41,7 @@ void DBTerminal::showCmds() {
 bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
 
     string createCmd = "create -t ";
-    string useCmd = "use ";
+    string addColCmd = "add -c ";
     int pos;
 
     if ((pos = cmd.find(createCmd)) != string::npos) {
@@ -58,26 +58,18 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
             }
         }
 
+    } else if ((pos = cmd.find(addColCmd)) != string::npos) {
+
+        // add table column
+        string str = cmd;
+        str.erase(pos, addColCmd.length());
+        addColHelper(str, pDB);
+        
     } else if (cmd == "view -all") {
         
         cout << endl;
         pDB->viewTables();
         cout << endl;
-
-    } else if ((pos = cmd.find(useCmd)) != string::npos) {
-        
-        string tableName = cmd;
-        tableName.erase(pos, useCmd.length());
-        if(extractString(tableName)) {
-
-            Table* pTab = new Table();
-            if(pDB->getTable(tableName, pTab)) {
-                // enter shell
-                TableTerminal tableTerm = TableTerminal();
-                tableTerm.enter(pTab, pDB->getName());
-            }
-            delete pTab; // free pointer memory
-        }
 
     } else if (cmd == "exit") {
         return false;
@@ -86,5 +78,35 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
     }
 
     return true;
+}
+
+void DBTerminal::addColHelper(const string& str, Database* pDB) {
+
+    // parse table name and column info
+    int pos = str.find(' ');
+    if (pos != string::npos) {
+
+        string tableName = str.substr(0, pos);
+        string colInfo = str.substr(pos+1, str.length());
+
+        // parse column name and data type
+        pos = colInfo.find(' ');
+        if (pos != string::npos) {
+            string colName = colInfo.substr(0, pos);
+            string colType = colInfo.substr(pos+1, colInfo.length());
+            if (extractString(tableName) && extractString(colName) && extractString(colType)) {
+                if (pDB->addTableCol(tableName, colName, colType)) {
+                    cout << "Successfully created column!" << endl;
+                } else {
+                    cerr << "error: failed to create column." << endl;
+                }
+            }
+        } else {
+            cerr << "error: Failed to parse column name and data type." << endl;
+        }
+    } else {
+        cerr << "error: Failed to parse table name." << endl;
+    }
+
 }
 
