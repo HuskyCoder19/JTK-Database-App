@@ -49,6 +49,18 @@ bool Database::deleteTable(const string& pTableName) {
     return false;
 }
 
+bool Database::addTableRow(const string& tableName, const vector<pair<string, string>>& data) {
+
+    int ind = getTableInd(tableName);
+
+    if (ind >= 0) {
+        //add row function
+        m_tables[ind].addRow(data);
+    }
+
+    return false;
+}
+
 bool Database::addTableCol(const string& tableName, const string& colName, const string& colType) {
 
     int ind = getTableInd(tableName);
@@ -58,7 +70,17 @@ bool Database::addTableCol(const string& tableName, const string& colName, const
     }
 
     return false;
+}
 
+bool Database::getTableCols(const string& tableName, vector<pair<string, string>>& cols) {
+
+    int ind = getTableInd(tableName);
+
+    if (ind >= 0) {
+        m_tables[ind].getCols(cols);
+    }
+
+    return false;
 }
 
 void Database::viewTables() {

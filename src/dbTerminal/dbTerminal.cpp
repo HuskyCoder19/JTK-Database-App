@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 
 #include "dbTerminal/dbTerminal.hpp"
 #include "tableTerminal/tableTerminal.hpp"
@@ -33,6 +34,7 @@ void DBTerminal::showCmds() {
 
     cout << "   Create table:           create -t '<table_name>'" << endl;
     cout << "   view tables:            view -all" << endl;
+    cout << "   Add row of data:        add -r '<table_name>'" << endl;
     cout << "   Add table column:       add -c '<table_name>' '<column_name>' '<data_type>'" << endl;
     cout << "   Show commands:          view -cmds" << endl;
     cout << "   exit:                   exit" << endl;
@@ -41,6 +43,7 @@ void DBTerminal::showCmds() {
 bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
 
     string createCmd = "create -t ";
+    string addRowCmd = "add -r ";
     string addColCmd = "add -c ";
     int pos;
 
@@ -50,12 +53,34 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
         tableName.erase(pos, createCmd.length());
         if(extractString(tableName)) {
             if (pDB->addTable(tableName)) {
-                // enter table's shell after creation
                 cout << "Table '" << tableName << "' created!" << endl;
-                cout << "   use -t '" << tableName << "' - enter table shell for editing." << endl;
             } else {
                 cerr << "error: Failed to create table '" << tableName << "'" << endl;
             }
+        }
+
+    } else if ((pos = cmd.find(addRowCmd)) != string::npos) { 
+        
+        string tableName = cmd;
+        tableName.erase(pos, addRowCmd.length());
+        if(extractString(tableName)) {
+            vector<pair<string, string>> cols;
+            pDB->getTableCols(tableName, cols);
+
+            vector<pair<string, string>> colVals;
+            for (int i = 0 ; i < cols.size() ; i++) {
+
+                cout << "   " << cols[i].first << " (" << cols[i].second << "): ";
+                string colVal;
+                getline(cin, colVal);
+
+                pair<string, string> cv(cols[i].first, colVal); // create column value pair
+
+                colVals.push_back(cv);
+            }
+
+            pDB->addTableRow(tableName, colVals);
+
         }
 
     } else if ((pos = cmd.find(addColCmd)) != string::npos) {
@@ -78,6 +103,12 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
     }
 
     return true;
+}
+
+void DBTerminal::addRowHelper(const string& tableName, Database* pDB) {
+
+    // add data column by column 
+
 }
 
 void DBTerminal::addColHelper(const string& str, Database* pDB) {

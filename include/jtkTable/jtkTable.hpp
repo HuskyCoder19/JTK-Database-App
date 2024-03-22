@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <utility>
 #include <map>
 
 namespace jtkTable {
@@ -17,9 +18,11 @@ namespace jtkTable {
 
             bool addColumn(const std::string& field, const std::string& type);
 
-            bool addRow(const std::string& field, const std::string& data);
+            bool addRow(const std::vector<std::pair<std::string, std::string>>& data);
 
             void viewTable();
+
+            void getCols(std::vector<std::pair<std::string, std::string>>& cols); // return cols as vector of name-type pairs
 
             std::string getName();
 
@@ -48,6 +51,8 @@ namespace jtkTable {
             };
 
             void buildTable(std::fstream* tabFile);
+
+            std::string getStrFromType(DataType dt);
 
             std::vector<std::string> parseCSV(const std::string& ln);
 

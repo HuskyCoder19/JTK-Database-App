@@ -2,6 +2,7 @@
 #define _JTK_DATABASE_HPP
 #include <iostream>
 #include <vector>
+#include <utility>
 
 #include "jtkTable/jtkTable.hpp"
 
@@ -21,7 +22,11 @@ namespace jtkDatabase {
 
             bool getTable(const std::string& tableName, jtkTable::Table* pTable);
 
+            bool addTableRow(const std::string& tableName, const std::vector<std::pair<std::string, std::string>>& data);
+
             bool addTableCol(const std::string& tableName, const std::string& colName, const std::string& colType);
+
+            bool getTableCols(const std::string& tableName, std::vector<std::pair<std::string, std::string>>& cols);
 
             void viewTables();
 

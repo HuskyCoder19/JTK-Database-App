@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <string.h>
+#include <utility>
 
 #include "jtkTable/jtkTable.hpp"
 
@@ -61,8 +62,42 @@ bool Table::addColumn(const string& name, const string& type) {
     return true;
 }
 
-bool Table::addRow(const string& field, const string& data) {
-    return true;
+bool Table::addRow(const vector<pair<string, string>>& data) {
+
+    // pair: (<column_name>, <column_value>) 
+    // loop through table columns, add data if match, NULL otherwise
+    for (int i = 0 ; i < m_tableCols.size() ; i++) {
+        bool found = false;
+        // check data vector for matching column
+        for (int j = 0 ; j < data.size() ; j++) {
+            if (m_tableCols[i].name == data[i].first) {
+                // TODO: need more error checking on input data
+                m_tableCols[i].data.push_back(data[i].second);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            m_tableCols[i].data.push_back("NULL");
+        }
+    }
+    m_rowCount++;
+    return false;
+}
+
+void Table::getCols(std::vector<std::pair<std::string, std::string>>& cols) {
+
+    cols.clear(); // ensure vector is empty
+
+    for (int i = 0 ; i < m_tableCols.size() ; i++) {
+        string type = getStrFromType(m_tableCols[i].type);
+        if (type == "") {
+            type = "string"; // default to string
+        }
+        pair<string, string> p(m_tableCols[i].name, type);
+        cols.push_back(p); // add pair to vec
+    }
+
 }
 
 void Table::viewTable() {
@@ -166,6 +201,18 @@ void Table::buildTable(fstream* tabFile) {
         }
 
     }
+
+}
+
+string Table::getStrFromType(DataType dt) {
+
+    for (const auto&p: m_typeMap) {
+        if (p.second == dt) {
+            return p.first;
+        }
+    }
+
+    return "";
 
 }
 
