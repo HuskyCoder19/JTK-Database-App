@@ -20,7 +20,7 @@ namespace dbTerminal {
 
             bool parseCmds(const std::string& cmd, jtkDatabase::Database* pDB);
 
-            void addRowHelper(const std::string& str, jtkDatabase::Database* pDB);
+            bool getTabDataHelper(std::string& str, jtkDatabase::Database* pDB, std::vector<std::vector<string>>& data);
 
             void addColHelper(const std::string& str, jtkDatabase::Database* pDB);
 

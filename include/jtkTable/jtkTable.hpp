@@ -22,6 +22,8 @@ namespace jtkTable {
 
             void getCols(std::vector<std::pair<std::string, std::string>>& cols); // return cols as vector of name-type pairs
 
+            void getData(const std::vector<std::string>& cols, std::vector<std::vector<std::string>>& data);
+
             std::string getName();
 
             enum class DataType {

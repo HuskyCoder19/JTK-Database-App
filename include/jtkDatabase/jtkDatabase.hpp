@@ -28,6 +28,8 @@ namespace jtkDatabase {
 
             bool getTableCols(const std::string& tableName, std::vector<std::pair<std::string, std::string>>& cols);
 
+            bool getTableData(const std::string& tableName, const std::vector<std::string>& cols, std::vector<std::vector<std::string>>& data);
+
             std::vector<std::string> getTableList(); // list of tableNames
 
             std::string getName();

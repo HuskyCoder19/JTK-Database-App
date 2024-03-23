@@ -33,7 +33,8 @@ void DBTerminal::enter(Database* pDB) {
 void DBTerminal::showCmds() {
 
     cout << "   Create table:           create -t '<table_name>'" << endl;
-    cout << "   view tables:            view -all" << endl;
+    cout << "   View list of tables:    view -all" << endl;
+    cout << "   Get table data:         get -d '<table_name>' '<col1> <col2> ... <coln>'" << endl;
     cout << "   Add row of data:        add -r '<table_name>'" << endl;
     cout << "   Add table column:       add -c '<table_name>' '<column_name>' '<data_type>'" << endl;
     cout << "   Show commands:          view -cmds" << endl;
@@ -45,6 +46,7 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
     string createCmd = "create -t ";
     string addRowCmd = "add -r ";
     string addColCmd = "add -c ";
+    string getTabCmd = "get -d ";
     int pos;
 
     if ((pos = cmd.find(createCmd)) != string::npos) {
@@ -114,6 +116,15 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
         cout << "   total: " << tables.size() << endl;
         cout << endl;
 
+    } else if ((pos = cmd.find(getTabCmd)) != string::npos){
+
+        // remove get cmd
+        string str = cmd; 
+        str.erase(pos, getTabCmd.length());
+
+        vector<vector<string>> data;
+        getTabDataHelper(str, pDB, data);
+
     } else if (cmd == "exit") {
         return false;
     } else {
@@ -121,12 +132,6 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
     }
 
     return true;
-}
-
-void DBTerminal::addRowHelper(const string& tableName, Database* pDB) {
-
-    // add data column by column 
-
 }
 
 void DBTerminal::addColHelper(const string& str, Database* pDB) {
@@ -157,5 +162,48 @@ void DBTerminal::addColHelper(const string& str, Database* pDB) {
         cerr << "error: Failed to parse table name." << endl;
     }
 
+}
+
+bool DBTerminal::getTabDataHelper(string& str, Database* pDB, vector<vector<string>>& data) {
+
+    vector<string> cols;
+    string tableName;
+
+    int pos = str.find(' ');
+    if (pos == string::npos) {
+        tableName = str;
+        if (!extractString(tableName)) {
+            return;
+        } 
+    } else {
+
+        tableName = str.substr(0, pos);
+
+        if (!extractString(tableName)) {
+            return;
+        }
+
+        str.erase(0, pos+1);
+
+        // loop for each column separated by white space
+        while ((pos = str.find(' ')) != string::npos) {
+            string col = str.substr(0, pos);
+            str.erase(0, pos+1);
+            if (extractString(col)) {
+                cout << col << endl;
+                cols.push_back(col);
+            }
+        }
+
+        // add last column not
+        if (str.length() > 1) {
+            if (extractString(str)) {
+                cols.push_back(str);
+            }
+        }
+
+    }
+
+    pDB->getTableData(tableName, cols, data);
 }
 

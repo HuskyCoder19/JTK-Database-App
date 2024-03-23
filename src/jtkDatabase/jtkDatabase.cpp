@@ -77,9 +77,23 @@ bool Database::getTableCols(const string& tableName, vector<pair<string, string>
 
     if (ind >= 0) {
         m_tables[ind].getCols(cols);
+        return true;
     }
 
     return false;
+}
+
+bool Database::getTableData(const string& tableName, const vector<string>& cols, vector<vector<string>>& data) {
+
+    int ind = getTableInd(tableName);
+
+    if (ind >= 0) {
+        m_tables[ind].getData(cols, data);
+        return true;
+    }
+
+    return false;
+
 }
 
 vector<string> Database::getTableList() {

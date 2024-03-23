@@ -100,6 +100,26 @@ void Table::getCols(std::vector<std::pair<std::string, std::string>>& cols) {
 
 }
 
+void Table::getData(const std::vector<std::string>& cols, std::vector<std::vector<std::string>>& data) {
+
+    if (cols.empty()) {
+        // return all rows of data if the column argument is empty
+        for (int i = 0 ; i < m_tableCols.size() ; i++) {
+            data.push_back(m_tableCols[i].data);
+        }
+    } else {
+
+        for (int i = 0 ; i < m_tableCols.size() ; i++) {
+            for (int j = 0 ; j < cols.size() ; j++) {
+                if (m_tableCols[i].name == cols[j]) {
+                    data.push_back(m_tableCols[i].data);
+                }
+            }
+        }
+    }
+
+}
+
 string Table::getName() {
     return m_tableName;
 }
