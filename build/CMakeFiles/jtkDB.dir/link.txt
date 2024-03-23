@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/jtkDB.dir/src/jtkDB.cpp.o CMakeFiles/jtkDB.dir/src/jtkDatabase/jtkDatabase.cpp.o CMakeFiles/jtkDB.dir/src/jtkTable/jtkTable.cpp.o CMakeFiles/jtkDB.dir/src/dbTerminal/dbTerminal.cpp.o CMakeFiles/jtkDB.dir/src/tableTerminal/tableTerminal.cpp.o CMakeFiles/jtkDB.dir/src/utils/utils.cpp.o -o jtkDB 

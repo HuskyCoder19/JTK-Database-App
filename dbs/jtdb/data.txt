@@ -1,4 +1,0 @@
-name(string),age(int),height(string),weight(int)
-Jeremiah,23,5'10,175
-Jerry,23,5'8,135
-Connor,22,6'1,195
