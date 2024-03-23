@@ -100,46 +100,6 @@ void Table::getCols(std::vector<std::pair<std::string, std::string>>& cols) {
 
 }
 
-void Table::viewTable() {
-
-    cout << "   " << m_tableName << ": ";
-
-    if (!m_tableCols.size()) {
-        cout << "none" << endl;
-        return;
-    }
-
-    for (int i = 0 ; i < m_tableCols.size() ; i++) {
-
-        if(i > 0) {
-            cout << "; ";
-        }
-
-        cout << m_tableCols[i].name << " ";
-        switch(m_tableCols[i].type) {
-            case DataType::STRING:
-                cout << "(string)";
-                break;
-            case DataType::FLOAT:
-                cout << "(float)";
-                break;
-            case DataType::DOUBLE:
-                cout << "(double)";
-                break;
-            case DataType::INT:
-                cout << "(int)";
-                break;
-            case DataType::CHAR:
-                cout << "(char)";
-                break;
-            default:
-                cout << "(NULL)";
-                break;
-        }
-    }
-    cout << endl;
-}
-
 string Table::getName() {
     return m_tableName;
 }

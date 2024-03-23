@@ -93,7 +93,25 @@ bool DBTerminal::parseCmds(const string& cmd, Database* pDB) {
     } else if (cmd == "view -all") {
         
         cout << endl;
-        pDB->viewTables();
+        vector<string> tables = pDB->getTableList();
+        for (int i = 0 ; i < tables.size() ; i++) {
+
+            vector<pair<string, string>> tabCols;
+            pDB->getTableCols(tables[i], tabCols);
+
+            cout << "   " << tables[i] << ": ";
+            for (int j = 0 ; j < tabCols.size() ; j++) {
+                cout << tabCols[j].first << " (" << tabCols[j].second << ")";
+                if (j < tabCols.size()-1) {
+                    cout << " | ";
+                }
+            }
+
+            cout << endl;
+
+        }
+
+        cout << "   total: " << tables.size() << endl;
         cout << endl;
 
     } else if (cmd == "exit") {

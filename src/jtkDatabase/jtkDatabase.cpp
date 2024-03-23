@@ -54,7 +54,6 @@ bool Database::addTableRow(const string& tableName, const vector<pair<string, st
     int ind = getTableInd(tableName);
 
     if (ind >= 0) {
-        //add row function
         m_tables[ind].addRow(data);
     }
 
@@ -83,13 +82,15 @@ bool Database::getTableCols(const string& tableName, vector<pair<string, string>
     return false;
 }
 
-void Database::viewTables() {
+vector<string> Database::getTableList() {
 
-    for (int i = 0 ; i < m_tables.size() ; i++) {
-        m_tables[i].viewTable();
+    vector<string> tabs;
+
+    for(int i = 0 ; i < m_tables.size() ; i++) {
+        tabs.push_back(m_tables[i].getName());
     }
-    cout << endl;
-    cout << "   Total: " << m_tables.size() << endl;
+
+    return tabs;
 }
 
 string Database::getName() {

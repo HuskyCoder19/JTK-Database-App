@@ -20,8 +20,6 @@ namespace jtkTable {
 
             bool addRow(const std::vector<std::pair<std::string, std::string>>& data);
 
-            void viewTable();
-
             void getCols(std::vector<std::pair<std::string, std::string>>& cols); // return cols as vector of name-type pairs
 
             std::string getName();

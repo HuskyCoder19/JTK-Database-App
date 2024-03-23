@@ -43,7 +43,7 @@ bool TableTerminal::parseCmds(const string& cmd, Table* pTable) {
 
     if (cmd == "view") {
         cout << endl;
-        pTable->viewTable();
+        //pTable->viewTable();
         cout << endl;
     } else if ((pos = cmd.find(addColCmd)) != string::npos) {
 
